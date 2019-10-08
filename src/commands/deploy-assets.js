@@ -5,19 +5,16 @@ const fs = require('fs')
 const uPath = require('upath')
 
 /* eslint-disable unicorn/no-process-exit */
+/* eslint-disable no-process-exit */
 /* eslint-disable no-console */
 /* eslint-disable no-await-in-loop */
-/* eslint-disable no-process-exit */
 
 const prom = f => new Promise((resolve, reject) => f((err, res) => err ? reject(err) : resolve(res)))
 
 const Mimos = require('@hapi/mimos')
 const mimos = new Mimos()
 
-const Arweave = require('arweave/node')
-const arweave = Arweave.init({ protocol: 'https', host: 'arweave.net' })
 const prettyBytes = require('pretty-bytes')
-const { cli } = require('cli-ux')
 
 function walk (p) {
   const stat = fs.statSync(p)
@@ -32,9 +29,9 @@ function walk (p) {
   throw new TypeError('File type not known, please report: ' + JSON.stringify(stat))
 }
 
-const { flags } = require('../base')
-
-const { Command, flags: oFlags } = require('@oclif/command')
+const { cli } = require('cli-ux')
+const { flags, arweave, confirm } = require('../base')
+const { Command } = require('@oclif/command')
 
 class DeployAssetsCommand extends Command {
   async run () {
@@ -100,15 +97,8 @@ class DeployAssetsCommand extends Command {
     })
     console.log('')
 
-    if (!flags.force) {
-      while (true) {
-        const ans = await cli.prompt('Continue [y/N]?')
-        if (ans.match(/^ye?s?$/mi)) {
-          break
-        } else if (ans.match(/^no?$/mi)) {
-          process.exit(0)
-        }
-      }
+    if (!flags.yes) {
+      await confirm()
     }
 
     cli.action.start('publishing...')
@@ -132,11 +122,7 @@ class DeployAssetsCommand extends Command {
 
 DeployAssetsCommand.description = 'Deploys assets to the permaweb'
 
-DeployAssetsCommand.flags = Object.assign(Object.assign(flags, {}), {
-  force: oFlags.boolean({
-    char: 'f'
-  })
-})
+DeployAssetsCommand.flags = flags
 
 DeployAssetsCommand.args = [
   {
