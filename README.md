@@ -29,8 +29,27 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
+* [`arweb-deploy deploy-assets`](#arweb-deploy-deploy-assets)
 * [`arweb-deploy hello`](#arweb-deploy-hello)
 * [`arweb-deploy help [COMMAND]`](#arweb-deploy-help-command)
+
+## `arweb-deploy deploy-assets`
+
+Describe the command here
+
+```
+USAGE
+  $ arweb-deploy deploy-assets
+
+OPTIONS
+  -n, --name=name  name to print
+
+DESCRIPTION
+  ...
+  Extra documentation goes here
+```
+
+_See code: [src/commands/deploy-assets.js](https://github.com/ArwebTeam/arweb-deploy/blob/v0.0.0/src/commands/deploy-assets.js)_
 
 ## `arweb-deploy hello`
 
