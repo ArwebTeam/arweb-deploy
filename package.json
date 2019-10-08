@@ -17,9 +17,6 @@
     "arbase": "^0.0.2",
     "arweave": "^1.4.1",
     "cli-ux": "^5.3.2",
-    "console-table": "^0.1.2",
-    "eslint-config-aegir-standalone": "^20.3.1",
-    "node-fetch": "^2.6.0",
     "pretty-bytes": "^5.3.0",
     "upath": "^1.2.0"
   },
@@ -29,6 +26,7 @@
     "chai": "^4",
     "eslint": "^6.5",
     "eslint-config-oclif": "^3.1",
+    "eslint-config-aegir-standalone": "^20.3.1",
     "globby": "^10",
     "mocha": "^6",
     "nyc": "^14"

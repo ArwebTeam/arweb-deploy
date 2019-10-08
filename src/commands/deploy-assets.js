@@ -9,8 +9,6 @@ const uPath = require('upath')
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-process-exit */
 
-require('console-table')
-
 const prom = f => new Promise((resolve, reject) => f((err, res) => err ? reject(err) : resolve(res)))
 
 const Mimos = require('@hapi/mimos')
