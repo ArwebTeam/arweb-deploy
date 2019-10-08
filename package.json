@@ -11,6 +11,8 @@
     "@oclif/command": "^1",
     "@oclif/config": "^1",
     "@oclif/plugin-help": "^2",
+    "arbase": "^0.0.2",
+    "arweave": "^1.4.1",
     "eslint-config-aegir-standalone": "^20.3.1"
   },
   "devDependencies": {

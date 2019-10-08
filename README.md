@@ -29,45 +29,45 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`arweb-deploy deploy-assets`](#arweb-deploy-deploy-assets)
-* [`arweb-deploy hello`](#arweb-deploy-hello)
+* [`arweb-deploy create-object DESCRIPTION-FILE-PATH OBJECT-PATH`](#arweb-deploy-create-object-description-file-path-object-path)
+* [`arweb-deploy deploy-assets PATH APP-ID`](#arweb-deploy-deploy-assets-path-app-id)
 * [`arweb-deploy help [COMMAND]`](#arweb-deploy-help-command)
 
-## `arweb-deploy deploy-assets`
+## `arweb-deploy create-object DESCRIPTION-FILE-PATH OBJECT-PATH`
 
-Describe the command here
+Create an arbase object and write it to the permaweb
 
 ```
 USAGE
-  $ arweb-deploy deploy-assets
+  $ arweb-deploy create-object DESCRIPTION-FILE-PATH OBJECT-PATH
+
+ARGUMENTS
+  DESCRIPTION-FILE-PATH  Path to description file, with either node: or json: prefix
+  OBJECT-PATH            Name and namespace of the object
 
 OPTIONS
-  -n, --name=name  name to print
+  -k, --key-file=key-file  (required) Path to arweave key-file
+```
 
-DESCRIPTION
-  ...
-  Extra documentation goes here
+_See code: [src/commands/create-object.js](https://github.com/ArwebTeam/arweb-deploy/blob/v0.0.0/src/commands/create-object.js)_
+
+## `arweb-deploy deploy-assets PATH APP-ID`
+
+Deploys assets to the permaweb
+
+```
+USAGE
+  $ arweb-deploy deploy-assets PATH APP-ID
+
+ARGUMENTS
+  PATH    Path to assets
+  APP-ID  App ID to update
+
+OPTIONS
+  -k, --key-file=key-file  (required) Path to arweave key-file
 ```
 
 _See code: [src/commands/deploy-assets.js](https://github.com/ArwebTeam/arweb-deploy/blob/v0.0.0/src/commands/deploy-assets.js)_
-
-## `arweb-deploy hello`
-
-Describe the command here
-
-```
-USAGE
-  $ arweb-deploy hello
-
-OPTIONS
-  -n, --name=name  name to print
-
-DESCRIPTION
-  ...
-  Extra documentation goes here
-```
-
-_See code: [src/commands/hello.js](https://github.com/ArwebTeam/arweb-deploy/blob/v0.0.0/src/commands/hello.js)_
 
 ## `arweb-deploy help [COMMAND]`
 

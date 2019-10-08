@@ -1,19 +1,30 @@
 'use strict'
 
-const { Command, flags } = require('@oclif/command')
+const { flags } = require('../base')
+
+const { Command } = require('@oclif/command')
 
 class DeployAssetsCommand extends Command {
   async run () {
-    const { flags } = this.parse(DeployAssetsCommand)
-    const name = flags.name || 'world'
-    this.log(`hello ${name} from /home/maciej/Projekte/arweave/arweb-deploy/src/commands/deploy-assets.js`)
+    const { flags, args } = this.parse(DeployAssetsCommand)
   }
 }
 
-DeployAssetsCommand.description = 'Deploys the assets'
+DeployAssetsCommand.description = 'Deploys assets to the permaweb'
 
-DeployAssetsCommand.flags = {
-  name: flags.string({ char: 'n', description: 'name to print' })
-}
+DeployAssetsCommand.flags = flags
+
+DeployAssetsCommand.args = [
+  {
+    name: 'path', // name of arg to show in help and reference with args[name]
+    required: true, // make the arg required with `required: true`
+    description: 'Path to assets' // help description
+  },
+  {
+    name: 'app-id', // name of arg to show in help and reference with args[name]
+    required: true, // make the arg required with `required: true`
+    description: 'App ID to update' // help description
+  }
+]
 
 module.exports = DeployAssetsCommand
