@@ -6,10 +6,15 @@ const uPath = require('upath')
 
 /* eslint-disable unicorn/no-process-exit */
 /* eslint-disable no-console */
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-process-exit */
 
 require('console-table')
 
 const prom = f => new Promise((resolve, reject) => f((err, res) => err ? reject(err) : resolve(res)))
+
+const Mimos = require('@hapi/mimos')
+const mimos = new Mimos()
 
 const Arweave = require('arweave/node')
 const arweave = Arweave.init({ protocol: 'https', host: 'arweave.net' })
@@ -54,6 +59,7 @@ class DeployAssetsCommand extends Command {
 
       tx.addTag('app', appId)
       tx.addTag('path', relativePath)
+      tx.addTag('Content-Type', mimos.path(file).type)
 
       return { tx, path: relativePath, size: stat.blksize }
     }))
@@ -109,12 +115,18 @@ class DeployAssetsCommand extends Command {
 
     cli.action.start('publishing...')
 
-    await Promise.all(results.map(async r => {
+    // const address = arweave.wallets.jwkToAddress(flags['key-file'])
+
+    for (let i = 0; i < results.length; i++) {
+      const r = results[i]
+
+      // r.tx.last_tx = arweave.wallets.getLastTransactionID(address)
+
       await arweave.transactions.sign(r.tx, flags['key-file'])
       const response = await arweave.transactions.post(r.tx)
 
-      this.log('Published %s: %o', r.path, response.data)
-    }))
+      this.log('Published %s as %s: %o', r.path, r.tx.id, response.data)
+    }
 
     cli.action.stop('done')
   }
