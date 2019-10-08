@@ -6,7 +6,9 @@
   "bin": {
     "arweb-deploy": "./bin/run"
   },
-  "bugs": "https://github.com/ArwebTeam/arweb-deploy/issues",
+  "bugs": {
+    "url": "https://github.com/ArwebTeam/arweb-deploy/issues"
+  },
   "dependencies": {
     "@hapi/mimos": "^4.1.1",
     "@oclif/command": "^1",
@@ -53,12 +55,18 @@
       "@oclif/plugin-help"
     ]
   },
-  "repository": "ArwebTeam/arweb-deploy",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArwebTeam/arweb-deploy.git"
+  },
   "scripts": {
     "postpack": "rm -f oclif.manifest.json",
     "posttest": "eslint .",
     "prepack": "oclif-dev manifest && oclif-dev readme",
     "test": "nyc mocha --forbid-only \"test/**/*.test.js\"",
     "version": "oclif-dev readme && git add README.md"
+  },
+  "directories": {
+    "test": "test"
   }
 }
