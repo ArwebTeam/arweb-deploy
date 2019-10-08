@@ -4,6 +4,9 @@ const path = require('path')
 const fs = require('fs')
 const uPath = require('upath')
 
+/* eslint-disable unicorn/no-process-exit */
+/* eslint-disable no-console */
+
 require('console-table')
 
 const prom = f => new Promise((resolve, reject) => f((err, res) => err ? reject(err) : resolve(res)))
@@ -11,6 +14,7 @@ const prom = f => new Promise((resolve, reject) => f((err, res) => err ? reject(
 const Arweave = require('arweave/node')
 const arweave = Arweave.init({ protocol: 'https', host: 'arweave.net' })
 const prettyBytes = require('pretty-bytes')
+const { cli } = require('cli-ux')
 
 function walk (p) {
   const stat = fs.statSync(p)
@@ -27,7 +31,7 @@ function walk (p) {
 
 const { flags } = require('../base')
 
-const { Command } = require('@oclif/command')
+const { Command, flags: oFlags } = require('@oclif/command')
 
 class DeployAssetsCommand extends Command {
   async run () {
@@ -51,9 +55,7 @@ class DeployAssetsCommand extends Command {
       tx.addTag('app', appId)
       tx.addTag('path', relativePath)
 
-      await arweave.transactions.sign(tx, flags['key-file'])
-      // const response = await arweave.transactions.post(tx)
-      return { /* response, */ tx, path: relativePath, size: stat.blksize }
+      return { tx, path: relativePath, size: stat.blksize }
     }))
 
     const total = results.reduce((total, add) => {
@@ -78,13 +80,53 @@ class DeployAssetsCommand extends Command {
       price: arweave.ar.winstonToAr(String(total.price)) + 'AR'
     })
 
-    console.table(table)
+    console.log('')
+    cli.table(table, {
+      path: {
+        minWidth: 5
+      },
+      size: {
+        minWidth: 4
+      },
+      price: {
+        minWidth: 10
+      }
+    }, {
+      printLine: this.log
+    })
+    console.log('')
+
+    if (!flags.force) {
+      while (true) {
+        const ans = await cli.prompt('Continue [y/N]?')
+        if (ans.match(/^ye?s?$/mi)) {
+          break
+        } else if (ans.match(/^no?$/mi)) {
+          process.exit(0)
+        }
+      }
+    }
+
+    cli.action.start('publishing...')
+
+    await Promise.all(results.map(async r => {
+      await arweave.transactions.sign(r.tx, flags['key-file'])
+      const response = await arweave.transactions.post(r.tx)
+
+      this.log('Published %s: %o', r.path, response.data)
+    }))
+
+    cli.action.stop('done')
   }
 }
 
 DeployAssetsCommand.description = 'Deploys assets to the permaweb'
 
-DeployAssetsCommand.flags = flags
+DeployAssetsCommand.flags = Object.assign(Object.assign(flags, {}), {
+  force: oFlags.boolean({
+    char: 'f'
+  })
+})
 
 DeployAssetsCommand.args = [
   {
