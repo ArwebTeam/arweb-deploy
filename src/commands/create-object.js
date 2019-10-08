@@ -30,6 +30,7 @@ function normalizeValue (attr, value) {
 
 const chalk = require('chalk')
 const { inspect } = require('util')
+const Joi = require('@hapi/joi')
 
 class CreateObjectCommand extends Command {
   async run () {
@@ -43,6 +44,8 @@ class CreateObjectCommand extends Command {
 
     const entry = compiled.entry[ns][name]
     const val = {}
+
+    const schema = eval(entry.validator) // eslint-disable-line no-eval
 
     /* args.kv = [
       'name=The ARF',
@@ -62,12 +65,18 @@ class CreateObjectCommand extends Command {
       val[key] = normalizeValue(attr, value)
     })
 
+    const { error, value } = schema.validate(val)
+
+    if (error) {
+      throw error
+    }
+
     arweave.jwk = flags['key-file']
-    const tx = await update.entryCreate(arweave, entry, val)
+    const tx = await update.entryCreate(arweave, entry, value)
 
     console.log('')
     console.log(`${chalk.bold('Data')}:`)
-    console.log('  ' + inspect(val, { depth: 2, colors: true }).split('\n').join('\n  '))
+    console.log('  ' + inspect(value, { depth: 2, colors: true }).split('\n').join('\n  '))
     console.log(`${chalk.bold('Price')}: ${arweave.ar.winstonToAr(tx.reward)} AR`)
     console.log('')
 

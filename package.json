@@ -10,6 +10,7 @@
     "url": "https://github.com/ArwebTeam/arweb-deploy/issues"
   },
   "dependencies": {
+    "@hapi/joi": "^16.1.7",
     "@hapi/mimos": "^4.1.1",
     "@oclif/command": "^1",
     "@oclif/config": "^1",
