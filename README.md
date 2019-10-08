@@ -20,7 +20,7 @@ $ npm install -g arweb-deploy
 $ arweb-deploy COMMAND
 running command...
 $ arweb-deploy (-v|--version|version)
-arweb-deploy/0.0.0 linux-x64 node-v10.16.3
+arweb-deploy/0.1.0 linux-x64 node-v10.16.3
 $ arweb-deploy --help [COMMAND]
 USAGE
   $ arweb-deploy COMMAND
@@ -49,7 +49,7 @@ OPTIONS
   -k, --key-file=key-file  (required) Path to arweave key-file
 ```
 
-_See code: [src/commands/create-object.js](https://github.com/ArwebTeam/arweb-deploy/blob/v0.0.0/src/commands/create-object.js)_
+_See code: [src/commands/create-object.js](https://github.com/ArwebTeam/arweb-deploy/blob/v0.1.0/src/commands/create-object.js)_
 
 ## `arweb-deploy deploy-assets PATH APP-ID`
 
@@ -64,10 +64,11 @@ ARGUMENTS
   APP-ID  App ID to update
 
 OPTIONS
+  -f, --force
   -k, --key-file=key-file  (required) Path to arweave key-file
 ```
 
-_See code: [src/commands/deploy-assets.js](https://github.com/ArwebTeam/arweb-deploy/blob/v0.0.0/src/commands/deploy-assets.js)_
+_See code: [src/commands/deploy-assets.js](https://github.com/ArwebTeam/arweb-deploy/blob/v0.1.0/src/commands/deploy-assets.js)_
 
 ## `arweb-deploy help [COMMAND]`
 
