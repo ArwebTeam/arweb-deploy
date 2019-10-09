@@ -1,7 +1,7 @@
 {
   "name": "arweb-deploy",
   "description": "Arweb deploy is a tool to help you with deploying your arweb project",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "Maciej Krüger @mkg20001",
   "bin": {
     "arweb-deploy": "./bin/run"

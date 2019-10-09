@@ -20,7 +20,7 @@ $ npm install -g arweb-deploy
 $ arweb-deploy COMMAND
 running command...
 $ arweb-deploy (-v|--version|version)
-arweb-deploy/0.1.1 linux-x64 node-v10.16.3
+arweb-deploy/0.1.2 linux-x64 node-v10.16.3
 $ arweb-deploy --help [COMMAND]
 USAGE
   $ arweb-deploy COMMAND
@@ -51,7 +51,7 @@ OPTIONS
   -y, --yes
 ```
 
-_See code: [src/commands/create-object.js](https://github.com/ArwebTeam/arweb-deploy/blob/v0.1.1/src/commands/create-object.js)_
+_See code: [src/commands/create-object.js](https://github.com/ArwebTeam/arweb-deploy/blob/v0.1.2/src/commands/create-object.js)_
 
 ## `arweb-deploy deploy-assets PATH APP-ID`
 
@@ -70,7 +70,7 @@ OPTIONS
   -y, --yes
 ```
 
-_See code: [src/commands/deploy-assets.js](https://github.com/ArwebTeam/arweb-deploy/blob/v0.1.1/src/commands/deploy-assets.js)_
+_See code: [src/commands/deploy-assets.js](https://github.com/ArwebTeam/arweb-deploy/blob/v0.1.2/src/commands/deploy-assets.js)_
 
 ## `arweb-deploy help [COMMAND]`
 
