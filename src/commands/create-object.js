@@ -1,9 +1,8 @@
 'use strict'
 
-const loader = require('arbase/src/loader')
-const validator = require('arbase/src/validator')
-const compiler = require('arbase/src/compiler')
-const { update } = require('arbase/src/client')
+const generator = require('arbase')
+const Client = require('arbase/src/client')
+const { decodeAndValidate } = require('arbase/src/client/process')
 
 const { cli } = require('cli-ux')
 const { flags, arweave, confirm } = require('../base')
@@ -35,22 +34,20 @@ const Joi = require('@hapi/joi')
 class CreateObjectCommand extends Command {
   async run () {
     const { flags, args } = this.parse(CreateObjectCommand)
+    const { write } = Client(arweave)
 
-    const contents = await loader(args['description-file-path'])
-    validator(contents)
-    const compiled = compiler({}, contents)
+    const code = await generator(args['description-file-path'], { signoff: 'eval' })
+    const compiled = eval(code) // eslint-disable-line no-eval
 
     const [,, ns = null, name] = args['object-path'].match(objectPathRE)
 
     const entry = compiled.entry[ns][name]
     const val = {}
 
-    const schema = eval(entry.validator) // eslint-disable-line no-eval
-
-    /* args.kv = [
+    args.kv = [
       'name=The ARF',
       'description=A board to showcase the arweb functionality'
-    ] */
+    ]
 
     args.kv.forEach(pair => {
       const [, key, value] = pair.match(kvRE)
@@ -65,18 +62,13 @@ class CreateObjectCommand extends Command {
       val[key] = normalizeValue(attr, value)
     })
 
-    const { error, value } = schema.validate(val)
-
-    if (error) {
-      throw error
-    }
-
     arweave.jwk = flags['key-file']
-    const tx = await update.entryCreate(arweave, entry, value)
+    const tx = await write.entryCreate(entry, val)
 
     console.log('')
     console.log(`${chalk.bold('Data')}:`)
-    console.log('  ' + inspect(value, { depth: 2, colors: true }).split('\n').join('\n  '))
+    console.log(tx)
+    console.log('  ' + inspect(await decodeAndValidate(entry, Buffer.from(tx.data)), { depth: 2, colors: true }).split('\n').join('\n  '))
     console.log(`${chalk.bold('Price')}: ${arweave.ar.winstonToAr(tx.reward)} AR`)
     console.log('')
 
