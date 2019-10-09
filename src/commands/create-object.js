@@ -2,7 +2,7 @@
 
 const generator = require('arbase')
 const Client = require('arbase/src/client')
-const { decodeAndValidate } = require('arbase/src/client/process')
+const { decodeAndValidate, decodeTxData } = require('arbase/src/client/process')
 
 const { cli } = require('cli-ux')
 const { flags, arweave, confirm } = require('../base')
@@ -67,8 +67,7 @@ class CreateObjectCommand extends Command {
 
     console.log('')
     console.log(`${chalk.bold('Data')}:`)
-    console.log(tx)
-    console.log('  ' + inspect(await decodeAndValidate(entry, Buffer.from(tx.data)), { depth: 2, colors: true }).split('\n').join('\n  '))
+    console.log('  ' + inspect(await decodeAndValidate(entry, decodeTxData(tx)), { depth: 2, colors: true }).split('\n').join('\n  '))
     console.log(`${chalk.bold('Price')}: ${arweave.ar.winstonToAr(tx.reward)} AR`)
     console.log('')
 
