@@ -44,11 +44,6 @@ class CreateObjectCommand extends Command {
     const entry = compiled.entry[ns][name]
     const val = {}
 
-    args.kv = [
-      'name=The ARF',
-      'description=A board to showcase the arweb functionality'
-    ]
-
     args.kv.forEach(pair => {
       const [, key, value] = pair.match(kvRE)
 

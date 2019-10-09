@@ -14,6 +14,7 @@
     "@hapi/mimos": "^4.1.1",
     "@oclif/command": "^1",
     "@oclif/config": "^1",
+    "@oclif/parser": "https://github.com/mkg20001/npm-registry/releases/download/oclif-parser/oclif-parser-v3.8.4.tgz",
     "@oclif/plugin-help": "^2",
     "arbase": "^0.1.3",
     "arweave": "^1.4.1",
